@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eid Card Generator</title>
+<style>
+    body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+}
+
+#background-video {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -1000;
+    object-fit: cover;
+}
+
+#generator {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 50px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #007bff;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+form {
+    display: grid;
+    gap: 15px;
+}
+
+label {
+    font-weight: bold;
+    color: #333;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+input[type="file"] {
+    margin-top: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#cardPreview {
+    margin-top: 30px;
+    text-align: center;
+}
+
+#card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-size: 100% 100%; /* Ensure background image covers the entire container */
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#card h3 {
+    margin-top: 0;
+    color: #007bff;
+}
+
+#card img {
+    max-width: 100%;
+    margin-top: 15px;
+    border-radius: 5px;
+}
+
+#card p {
+    margin: 10px 0;
+}
+
+#card p:last-child {
+    font-style: italic;
+    color: #666;
+}
+
+#downloadButton {
+    margin-top: 20px;
+    display: none; /* Initially hide the download button */
+}
+</style>
+</head>
+<body>
+<video id="background-video" autoplay loop>
+  <source src="eid.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+<div id="generator">
+  <h1>Generating Card</h1>
+  <form id="cardForm">
+    <div>
+      <label for="name">Your Name:</label>
+      <input type="text" id="name" name="name" required>
+    </div>
+    <div>
+      <label for="message">Your Message:</label>
+      <textarea id="message" name="message" required></textarea>
+    </div>
+    <div>
+      <label for="image">Upload Your Image:</label>
+      <input type="file" id="image" accept="image/*" required>
+    </div>
+    <button type="button" onclick="generateCard()">Generate Card</button>
+  </form>
+</div>
+<div id="cardPreview"></div>
+<div id="downloadButton" style="display: none;">
+    <button onclick="downloadPDF()">Download Card as PDF</button>
+    <button onclick="downloadImage()">Download Card as Image</button>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+<script>
+function generateCard() {
+    const name = document.getElementById('name').value;
+    const message = document.getElementById('message').value;
+    const imageFile = document.getElementById('image').files[0];
+
+    if (name === '' || message === '' || !imageFile) {
+        alert('Please fill in all fields and upload an image.');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        const imageUrl = event.target.result;
+
+        // Array of image paths
+        const backgroundImages = ['eid.jpg', 'eid1.jpg', 'eid2.jpg', 'eid3.jpg', 'eid4.jpg', 'eid5.jpg'];
+        
+        // Randomly select an image path
+        const randomImagePath = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
+
+        const backgroundImage = new Image();
+        backgroundImage.onload = function() {
+            // Once background image is loaded, generate the card
+            const cardPreview = document.getElementById('cardPreview');
+            cardPreview.innerHTML = `
+            <div id="card" style="background-image: url('${randomImagePath}'); color: white; text-align: center; padding: 20px;">
+
+                <h3>EID MUBARAK!</h3>
+                <p style="color:#2f730e; font-weight: bold; text-transform: uppercase;">${message.toUpperCase()}</p>
+                <img src="${imageUrl}" style="max-width: 200px; max-height: 700px;" alt="Uploaded Image">
+                <p style="color: black; font-weight: bold; text-transform: uppercase;">FROM: 
+                    ${name.split('').map(letter => `<span style="border: 1px solid #000; padding: 2px;">${letter}</span>`).join('')}
+                </p>
+                <div style="background-color: rgba(255, 255, 255, 0.4); padding: 10px; border-radius: 5px;">
+                    <p style="color: black; font-weight: bold; text-transform: uppercase;">MAY THE MAGIC OF THIS EID BRING LOTS OF HAPPINESS IN YOUR LIFE AND MAY IT FILL YOUR HEART WITH WONDERS. EID MUBARAK!</p>
+                    <p style="color: black; font-weight: bold; text-transform: uppercase;">WISHING YOU AND YOUR FAMILY A BLESSED EID FILLED WITH LOVE, PEACE, AND PROSPERITY.</p>
+                    <p style="color: black; font-weight: bold; text-transform: uppercase;">WARMEST WISHES FOR A JOYOUS AND BLESSED EID!</p>
+                </div>
+
+            </div>
+            `;
+            // Show the download buttons
+            document.getElementById('downloadButton').style.display = 'block';
+
+            // Alert messages
+            alert("If you don't like the background, try again with refreshing the page.");
+            alert("If the download button is not working properly, then take a screenshot and send it to your family!");
+        };
+        backgroundImage.src = randomImagePath; // Start loading the background image
+    };
+    reader.readAsDataURL(imageFile);
+}
+
+
+
+
+function downloadPDF() {
+    const cardPreview = document.getElementById('cardPreview');
+    const cardElement = cardPreview.querySelector('#card');
+
+    if (!cardElement) {
+        console.error('Card element not found.');
+        return;
+    }
+
+    html2canvas(cardElement, {
+        onrendered: function(canvas) {
+            const pdf = new jsPDF();
+            pdf.addImage(canvas.toDataURL('image/jpeg'), 'JPEG', 0, 0);
+            pdf.save('eid_card.pdf');
+        }
+    });
+}
+
+function downloadImage() {
+    const cardPreview = document.getElementById('cardPreview');
+    const cardElement = cardPreview.querySelector('#card');
+
+    if (!cardElement) {
+        console.error('Card element not found.');
+        return;
+    }
+
+    html2canvas(cardElement, {
+        onrendered: function(canvas) {
+            const imageData = canvas.toDataURL('image/png');
+            const downloadLink = document.createElement('a');
+            downloadLink.href = imageData;
+            downloadLink.download = 'eid_card.png';
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        }
+    });
+}
+</script>
+</body>
+</html>
