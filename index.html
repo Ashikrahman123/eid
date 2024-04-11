@@ -11,6 +11,8 @@
 
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+	<!-- Font Awesome for icons -->
 
 	<link href='http://fonts.googleapis.com/css?family=Inconsolata:700' rel='stylesheet' type='text/css'>
 
@@ -68,25 +70,34 @@
 	<script src="js/animate.js"></script>
 
 	<style>
-		#generateButton {
-			display: none;
-			margin-top: 20px;
+		#banner {
 			text-align: center;
 		}
 
-		#generateButton a {
+		#banner .social-icons a {
 			display: inline-block;
-			padding: 10px 20px;
-			background-color: #3498db;
-			color: #fff;
-			text-decoration: none;
+			padding: 5px;
+			background-color: #f8f9fa;
 			border-radius: 5px;
-			font-weight: bold;
+			color: #d94011;
+			font-size: 24px;
+			transition: color 0.3s ease;
+		}
+
+		#banner .social-icons a:hover {
+			color: #2980b9;
 		}
 	</style>
 </head>
 
 <body>
+
+	<!-- Box with YouTube icon -->
+	<div id="banner">
+		<div class="social-icons">
+			<a href="https://youtube.com/@IslamandInnovations"><i class="fab fa-youtube"></i></a>
+		</div>
+	</div>
 
 	<div class="board">
 		<p id="terminal"></p>
@@ -112,7 +123,7 @@
 
 	<!-- Generate button (moved below the board) -->
 	<div id="generateButton" style="text-align: center;">
-		<a href="eid/index.html">Generate a Wishing Card<br>For your family and Friends!!</a>
+		<a href="eid/index.php">Generate a Wishing Card<br>For your family and Friends!!</a>
 	</div>
 
 </body>
