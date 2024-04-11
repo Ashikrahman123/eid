@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Eid Card Generator</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome for icons -->
 <style>
     body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -123,6 +124,22 @@ button:hover {
     margin-top: 20px;
     display: none; /* Initially hide the download button */
 }
+
+.footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.footer a {
+    color: #007bff;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 24px;
+}
+
+.footer a:hover {
+    color: #0056b3;
+}
 </style>
 </head>
 <body>
@@ -153,6 +170,19 @@ button:hover {
     <button onclick="downloadPDF()">Download Card as PDF</button>
     <button onclick="downloadImage()">Download Card as Image</button>
 </div>
+<div class="footer">
+    <div>
+        <a href="https://youtube.com/@IslamandInnovations" style="padding: 8px; border: 1px solid red; "><i class="fab fa-youtube" style="color: red;"></i></a>
+        <span style="color:white;font-family: 'Arial Black', sans-serif; text-transform: uppercase;">Follow me on YouTube</span>
+    </div>
+    <div><br><br>
+        <a href="https://www.instagram.com/the_in.novator/" style="padding: 8px; border: 1px solid violet;"><i class="fab fa-instagram" style="color: violet;"></i></a>
+        <span style="color:white;font-family: 'Arial Black', sans-serif; text-transform: uppercase;">Follow me on Instagram</span>
+    </div>
+</div>
+
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 <script>
